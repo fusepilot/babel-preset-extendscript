@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`wrap conditionals in parentheses 1`] = `
+"
+function toInteger(value) {
+  var result = parseFloat(value),
+      remainder = result % 1;
+  return result === result ? (remainder ? result - remainder : result) : 0;
+}
+
+toInteger(2.1);"
+`;

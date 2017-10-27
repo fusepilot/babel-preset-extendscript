@@ -1,0 +1,214 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Object.defineProperties 1`] = `
+"var _objectDefineProperties = function _objectDefineProperties(object, descriptors) {
+  var property;
+
+  for (property in descriptors) {
+    _objectDefineProperty(object, property, descriptors[property]);
+  }
+
+  return object;
+};
+
+var obj = {};
+_objectDefineProperties(obj, {
+  'property1': {
+    value: true,
+    writable: true
+  },
+  'property2': {
+    value: 'Hello',
+    writable: false
+    // etc. etc.
+  } });"
+`;
+
+exports[`Object.defineProperty 1`] = `
+"var _objectDefineProperty = function _objectDefineProperty(object, property, descriptor) {
+  if (descriptor) {
+    delete descriptor.configurable;
+    delete descriptor.enumerable;
+    delete descriptor.writable;
+
+    if (descriptor.value != undefined) {
+      object[property] = descriptor.value;
+    }
+  }
+
+  return object;
+};
+
+var o = {};
+
+_objectDefineProperty(o, 'a', {
+  value: 37,
+  writable: true,
+  enumerable: true,
+  configurable: true
+});"
+`;
+
+exports[`Object.freeze 1`] = `
+"var _objectFreeze = function _objectFreeze(object) {
+  if (Object(object) !== object) {
+    throw new TypeError('Object.freeze can only be called on Objects.');
+  }
+
+  return object;
+};
+
+var o = _objectFreeze(obj);"
+`;
+
+exports[`Object.getOwnPropertyDescriptor 1`] = `
+"var _objectGetOwnPropertyDescriptor = function _objectGetOwnPropertyDescriptor(object, key) {
+  return {
+    configurable: false,
+    writable: true,
+    enumerable: false,
+    value: object[key]
+  };
+};
+
+var o = { get foo() {
+    return 17;
+  } };
+var d = _objectGetOwnPropertyDescriptor(o, 'foo');"
+`;
+
+exports[`Object.getOwnPropertyNames 1`] = `
+"var _forEach = function _forEach(array, callback) {
+  for (var i = 0; i < array.length; i++) {
+    callback(array[i], i, array);
+  }
+};
+
+var _objectGetOwnPropertyNames = function _objectGetOwnPropertyNames(object) {
+  return _objectKeys(object);
+};
+
+var obj = { 0: 'a', 1: 'b', 2: 'c' };
+
+// Logging property names and values using Array.forEach
+_forEach(_objectGetOwnPropertyNames(obj), function (val, idx, array) {
+  $.writeln(val + ' -> ' + obj[val]);
+});"
+`;
+
+exports[`Object.getPrototypeOf 1`] = `
+"var _objectCreate = function () {
+  var Temp = function Temp() {};
+
+  return function (prototype, propertiesObject) {
+    if (prototype !== Object(prototype) && prototype !== null) {
+      throw TypeError('Argument must be an object, or null');
+    }
+
+    Temp.prototype = prototype || {};
+
+    if (propertiesObject !== undefined) {
+      _objectDefineProperties(Temp.prototype, propertiesObject);
+    }
+
+    var result = new Temp();
+    Temp.prototype = null;
+
+    if (prototype === null) {
+      result.__proto__ = null;
+    }
+
+    return result;
+  };
+}();
+
+var _objectGetProtoOf = function _objectGetProtoOf(object) {
+  var proto = object.__proto__;
+
+  if (proto || proto === null) {
+    return proto;
+  } else if (toStr(object.constructor) === '[object Function]') {
+    return object.constructor.prototype;
+  } else if (object instanceof Object) {
+    return prototypeOfObject;
+  } else {
+    return null;
+  }
+};
+
+var proto = {};
+var obj = _objectCreate(proto);
+_objectGetProtoOf(obj) === proto;"
+`;
+
+exports[`Object.isExtensible 1`] = `
+"var _objectIsExtensible = function _objectIsExtensible(object) {
+  if (Object(object) !== object) {
+    throw new TypeError('Object.isExtensible can only be called on Objects.');
+  }
+
+  var name = '';
+
+  while (owns(object, name)) {
+    name += '?';
+  }
+
+  object[name] = true;
+  var returnValue = owns(object, name);
+  delete object[name];
+  return returnValue;
+};
+
+var empty = {};
+_objectIsExtensible(empty);"
+`;
+
+exports[`Object.isFrozen 1`] = `
+"var _objectIsFrozen = function _objectIsFrozen(object) {
+  if (Object(object) !== object) {
+    throw new TypeError('Object.isFrozen can only be called on Objects.');
+  }
+
+  return false;
+};
+
+_objectIsFrozen({});"
+`;
+
+exports[`Object.isSealed 1`] = `
+"var _objectIsSealed = function _objectIsSealed(object) {
+  if (Object(object) !== object) {
+    throw new TypeError('Object.isSealed can only be called on Objects.');
+  }
+
+  return false;
+};
+
+var empty = {};
+_objectIsSealed(empty);"
+`;
+
+exports[`Object.preventExtensions 1`] = `
+"var _objectPreventExtensions = function _objectPreventExtensions(object) {
+  if (Object(object) !== object) {
+    throw new TypeError('Object.preventExtensions can only be called on Objects.');
+  }
+
+  return object;
+};
+
+var empty = {};
+_objectPreventExtensions(empty);"
+`;
+
+exports[`Object.seal 1`] = `
+"var _objectSeal = function _objectSeal(object) {
+  if (Object(object) !== object) {
+    throw new TypeError('Object.seal can only be called on Objects.');
+  }
+
+  return object;
+};
+
+var o = _objectSeal(obj);"
+`;

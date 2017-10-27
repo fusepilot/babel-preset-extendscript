@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`clearInterval 1`] = `
+"var _clearInterval = function _clearInterval(id) {
+  app.cancelTask(id);
+};
+
+var _setInterval = function _setInterval() {
+  if (!$._intervals) $._intervals = {};
+
+  function guid() {
+    var s4 = function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    };
+
+    return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
+  }
+
+  return function (func, millis) {
+    var id = guid();
+    $._intervals[id] = func;
+    $.writeln(id);
+    return app.scheduleTask('$._intervals[\\"' + id + '\\"]();', millis, true);
+  };
+}();
+
+var interval = _setInterval(function () {
+  $.writeln('yo');
+}, 1000);
+
+_clearInterval(interval);"
+`;
+
+exports[`clearTimeout 1`] = `
+"var _clearTimeout = function _clearTimeout(id) {
+  app.cancelTask(id);
+};
+
+var _setTimeout = function _setTimeout() {
+  if (!$._timers) $._timers = {};
+
+  function guid() {
+    var s4 = function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    };
+
+    return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
+  }
+
+  return function (func, millis) {
+    var id = guid();
+    $._timers[id] = func;
+    return app.scheduleTask('$._timers[\\"' + id + '\\"]();', millis, false);
+  };
+}();
+
+var timeout = _setTimeout(function () {
+  $.writeln('yo');
+}, 1000);
+
+_clearTimeout(timeout);"
+`;
+
+exports[`console.log 1`] = `
+"var _consoleLog = function _consoleLog() {
+  for (var i = 0; i < arguments.length; ++i) {
+    $.write(arguments[i]);
+    $.write(' ');
+  }
+
+  $.writeln();
+};
+
+_consoleLog('hello world');"
+`;
+
+exports[`console.time 1`] = `
+"var _consoleTime;
+
+var _consoleTimeEnd;
+
+(function () {
+  var timers = {};
+
+  _consoleTime = function _consoleTime(name) {
+    if (name) timers[name] = Date.now();
+  };
+
+  _consoleTimeEnd = function _consoleTimeEnd(name) {
+    if (timers[name]) {
+      _consoleLog(name + ': ' + (Date.now() - timers[name]) + 'ms');
+
+      delete timers[name];
+    }
+  };
+})();
+
+_consoleTime(label);"
+`;
+
+exports[`setInterval 1`] = `
+"var _setInterval = function _setInterval() {
+  if (!$._intervals) $._intervals = {};
+
+  function guid() {
+    var s4 = function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    };
+
+    return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
+  }
+
+  return function (func, millis) {
+    var id = guid();
+    $._intervals[id] = func;
+    $.writeln(id);
+    return app.scheduleTask('$._intervals[\\"' + id + '\\"]();', millis, true);
+  };
+}();
+
+_setInterval(function () {
+  $.writeln('yo');
+}, 1000);"
+`;
+
+exports[`setTimeout 1`] = `
+"var _setTimeout = function _setTimeout() {
+  if (!$._timers) $._timers = {};
+
+  function guid() {
+    var s4 = function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    };
+
+    return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
+  }
+
+  return function (func, millis) {
+    var id = guid();
+    $._timers[id] = func;
+    return app.scheduleTask('$._timers[\\"' + id + '\\"]();', millis, false);
+  };
+}();
+
+_setTimeout(function () {
+  $.writeln('yo');
+}, 1000);"
+`;

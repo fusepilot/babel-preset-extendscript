@@ -1,0 +1,248 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Array.isArray 1`] = `
+"var _arrayIsArray = function _arrayIsArray(arg) {
+  return Object.prototype.toString.call(arg) === '[object Array]';
+};
+
+_arrayIsArray([]);
+_arrayIsArray([1]);
+_arrayIsArray(new Array());
+// Little known fact: Array.prototype itself is an array:
+_arrayIsArray(Array.prototype);
+
+// all following calls return false
+_arrayIsArray();
+_arrayIsArray({});
+_arrayIsArray(null);
+_arrayIsArray(undefined);
+_arrayIsArray(17);
+_arrayIsArray('Array');
+_arrayIsArray(true);
+_arrayIsArray(false);
+_arrayIsArray({ __proto__: Array.prototype });"
+`;
+
+exports[`Array.prototype.filter() 1`] = `
+"var _filter = function _filter(array, callback) {
+  var newArray = [];
+
+  for (var i = 0; i < array.length; i++) {
+    if (callback(array[i], i, array)) newArray.push(array[i]);
+  }
+
+  return newArray;
+};
+
+function isBigEnough(value) {
+  return value >= 10;
+}
+
+var filtered = _filter([12, 5, 8, 130, 44], isBigEnough);
+// filtered is [12, 130, 44]"
+`;
+
+exports[`Array.prototype.find() 1`] = `
+"var _find = function _find(array, callback) {
+  for (var i = 0; i < array.length; i++) {
+    var item = array[i];
+    if (callback(item, i, array)) return item;
+  }
+};
+
+var inventory = [{ name: 'apples', quantity: 2 }, { name: 'bananas', quantity: 0 }, { name: 'cherries', quantity: 5 }];
+
+function findCherries(fruit) {
+  return fruit.name === 'cherries';
+}
+
+$.writeln(_find(inventory, findCherries));"
+`;
+
+exports[`Array.prototype.forEach() 1`] = `
+"var _forEach = function _forEach(array, callback) {
+  for (var i = 0; i < array.length; i++) {
+    callback(array[i], i, array);
+  }
+};
+
+var items = ['item1', 'item2', 'item3'];
+var copy = [];
+
+_forEach(items, function (item) {
+  copy.push(item);
+});"
+`;
+
+exports[`Array.prototype.map() 1`] = `
+"var _map = function _map(array, callback) {
+  var newArray = [];
+
+  for (var i = 0; i < array.length; i++) {
+    newArray.push(callback(array[i], i, array));
+  }
+
+  return newArray;
+};
+
+var numbers = [1, 4, 9];
+var roots = _map(numbers, Math.sqrt);
+// roots is now [1, 2, 3]
+// numbers is still [1, 4, 9]"
+`;
+
+exports[`Array.prototype.reduce() 1`] = `
+"var _reduce = function _reduce(array, callback) {
+    if (array == null) {
+        throw new TypeError('Array.prototype.reduce called on null or undefined');
+    }
+
+    if (typeof callback !== 'function') {
+        throw new TypeError(callback + ' is not a function');
+    }
+
+    var t = Object(array),
+        len = t.length >>> 0,
+        k = 0,
+        value;
+
+    if (arguments.length == 2) {
+        value = arguments[1];
+    } else {
+        while (k < len && !(k in t)) {
+            k++;
+        }
+
+        if (k >= len) {
+            throw new TypeError('Reduce of empty array with no initial value');
+        }
+
+        value = t[k++];
+    }
+
+    for (; k < len; k++) {
+        if (k in t) {
+            value = callback(value, t[k], k, t);
+        }
+    }
+
+    return value;
+};
+
+// create an array
+var numbers = [0, 1, 2, 3];
+
+/* call reduce() on the array, passing a callback
+that adds all the values together */
+var result = _reduce(numbers, function (accumulator, currentValue) {
+    return accumulator + currentValue;
+});
+
+// log the result
+$.writeln(result);
+// expected output: 6"
+`;
+
+exports[`Number.isFinite 1`] = `
+"var _numberIsFinite = function _numberIsFinite(arg) {
+                            return typeof arg === \\"number\\" && isFinite(arg);
+};
+
+_numberIsFinite(Infinity); // false
+_numberIsFinite(NaN); // false
+_numberIsFinite(-Infinity); // false
+
+_numberIsFinite(0); // true
+_numberIsFinite(2e64); // true
+
+_numberIsFinite('0'); // false, would've been true with
+// global isFinite('0')
+_numberIsFinite(null); // false, would've been true with
+// global isFinite(null)"
+`;
+
+exports[`Object.assign 1`] = `
+"var _objectAssign = function _objectAssign(target, source) {
+  for (var i = 1; i < arguments.length; i++) {
+    for (var key in arguments[i]) {
+      if (Object.prototype.hasOwnProperty.call(arguments[i], key)) {
+        target[key] = arguments[i][key];
+      }
+    }
+  }
+
+  return target;
+};
+
+var obj = { a: 1 };
+var copy = _objectAssign({}, obj);"
+`;
+
+exports[`Object.create 1`] = `
+"var _objectCreate = function () {
+  var Temp = function Temp() {};
+
+  return function (prototype, propertiesObject) {
+    if (prototype !== Object(prototype) && prototype !== null) {
+      throw TypeError('Argument must be an object, or null');
+    }
+
+    Temp.prototype = prototype || {};
+
+    if (propertiesObject !== undefined) {
+      _objectDefineProperties(Temp.prototype, propertiesObject);
+    }
+
+    var result = new Temp();
+    Temp.prototype = null;
+
+    if (prototype === null) {
+      result.__proto__ = null;
+    }
+
+    return result;
+  };
+}();
+
+var o = _objectCreate({}, { p: { value: 42 } });"
+`;
+
+exports[`Object.keys 1`] = `
+"var _typeof = typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj; };
+
+var _objectKeys = function _objectKeys(obj) {
+  var hasOwnProperty = Object.prototype.hasOwnProperty,
+      hasDontEnumBug = !{
+    toString: null
+  }.propertyIsEnumerable('toString'),
+      dontEnums = ['toString', 'toLocaleString', 'valueOf', 'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'constructor'],
+      dontEnumsLength = dontEnums.length;
+
+  if ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object' && (typeof obj !== 'function' || obj === null)) {
+    throw new TypeError('Object.keys called on non-object');
+  }
+
+  var result = [],
+      prop,
+      i;
+
+  for (prop in obj) {
+    if (hasOwnProperty.call(obj, prop)) {
+      result.push(prop);
+    }
+  }
+
+  if (hasDontEnumBug) {
+    for (i = 0; i < dontEnumsLength; i++) {
+      if (hasOwnProperty.call(obj, dontEnums[i])) {
+        result.push(dontEnums[i]);
+      }
+    }
+  }
+
+  return result;
+};
+
+var obj = { 0: 'a', 1: 'b', 2: 'c' };
+$.writeln(_objectKeys(obj)); // console: ['0', '1', '2']"
+`;
