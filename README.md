@@ -1,6 +1,7 @@
 # babel-preset-extendscript
 
-> Babel preset for transpiling ES2015 and modern JS conventions to ES3. Mainly intended for use with Extendscript. 😱
+## What
+Babel preset for transpiling ES2015 and modern JS conventions to ES3. Mainly intended for use with Extendscript. 😱
 
 ## Why
 Because modern Javascript has improved since the 90's. Thanks Adobe.
