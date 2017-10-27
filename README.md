@@ -104,3 +104,6 @@ require("babel-core").transform("code", {
 
 ### Fixes
 * Wraps all conditional expressions in parentheses to prevent `Expected: :` error.
+
+## Known Issues
+• CallExpression's that uses other transforms from this preset only insert them 1 level deep due to path.unshiftContainer adding a new CallExpression in Program:exit(). Need to figure out a way to do another Program:exit() after the first if new CallExpressions have been added so state[name].matches can be += 1'd.
