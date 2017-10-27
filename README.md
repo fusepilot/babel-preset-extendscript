@@ -1,14 +1,21 @@
 # babel-preset-extendscript
 
-> Babel preset for all extendscript plugins.
+> Babel preset for transpiling ES2015 and modern JS conventions to ES3. Mainly intended for use with Extendscript. 😱
 
 ## Why
-Because Adobe ( to their shame ) probably wont update the Javascript version (es3) that powers ExtendScript in the near future. Until they do, ExtendScript is stuck in 1999.
+Because modern Javascript has improved since the 90's. Thanks Adobe.
 
 ## Install
 
+With NPM:
 ```sh
 $ npm install --save-dev babel-preset-extendscript
+```
+
+With Yarn:
+
+```sh
+$ yarn add --dev babel-preset-extendscript
 ```
 
 ## Usage
@@ -55,3 +62,44 @@ require("babel-core").transform("code", {
   ]
 }
 ```
+
+## Features
+
+### ES2015
+* babel-plugin-transform-es2015
+
+### Convenience
+* console.log
+* JSON.stringify
+* JSON.parse
+* setTimeout
+* setInterval
+* clearTimeout
+* clearInterval
+
+### Shims
+* Object.keys
+* Object.assign
+* Object.create
+* Array.isArray
+* Number.isFinite
+* Array.prototype.forEach
+* Array.prototype.find
+* Array.prototype.filter
+* Array.prototype.map
+* Array.prototype.reduce
+
+### Shams
+* Object.getPrototypeOf
+* Object.defineProperty
+* Object.defineProperties
+* Object.getOwnPropertyNames
+* Object.getOwnPropertyDescriptor
+* Object.seal
+* Object.freeze
+* Object.isSealed
+* Object.isFrozen
+* Object.isExtensible
+
+### Fixes
+* Wraps all conditional expressions in parentheses to prevent `Expected: :` error.

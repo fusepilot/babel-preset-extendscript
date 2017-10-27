@@ -2,7 +2,7 @@
   "name": "babel-preset-extendscript",
   "version": "0.0.1",
   "description":
-    "Babel preset for transpiling ES2015 and modern JS conventions to ES3 😞. Mainly intended for use with Adobe Extendscript 😱.",
+    "Babel preset for transpiling ES2015 and modern JS conventions to ES3. Mainly intended for use with Adobe Extendscript.",
   "author": "Michael Delaney <michael@fusepilot.com>",
   "license": "MIT",
   "repository": "https://github.com/fusepilot/babel-preset-extendscript",
