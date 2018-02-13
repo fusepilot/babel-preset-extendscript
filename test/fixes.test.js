@@ -1,5 +1,5 @@
-const preset = require('../src')
-const babel = require('babel-core')
+const preset = require('../src');
+const babel = require('babel-core');
 
 it('wrap conditionals in parentheses', () => {
   const example = `
@@ -9,8 +9,8 @@ it('wrap conditionals in parentheses', () => {
   }
 
   toInteger(2.1);
-  `
+  `;
 
-  const { code } = babel.transform(example, { presets: [preset] })
-  expect(code).toMatchSnapshot()
-})
+  const { code } = babel.transform(example, { presets: [preset] });
+  expect(code).toMatchSnapshot();
+});

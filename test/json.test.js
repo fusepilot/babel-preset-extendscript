@@ -1,5 +1,5 @@
-const preset = require('../src')
-const babel = require('babel-core')
+const preset = require('../src');
+const babel = require('babel-core');
 
 it('JSON.stringify', () => {
   const example = `
@@ -37,11 +37,11 @@ it('JSON.stringify', () => {
   // Non-enumerable properties:
   JSON.stringify( Object.create(null, { x: { value: 'x', enumerable: false }, y: { value: 'y', enumerable: true } }) );
   // '{"y":"y"}'
-  `
+  `;
 
-  const { code } = babel.transform(example, { presets: [preset] })
-  expect(code).toMatchSnapshot()
-})
+  const { code } = babel.transform(example, { presets: [preset] });
+  expect(code).toMatchSnapshot();
+});
 
 it('JSON.parse', () => {
   const example = `
@@ -50,8 +50,8 @@ it('JSON.parse', () => {
   JSON.parse('"foo"');           // "foo"
   JSON.parse('[1, 5, "false"]'); // [1, 5, "false"]
   JSON.parse('null');            // null
-  `
+  `;
 
-  const { code } = babel.transform(example, { presets: [preset] })
-  expect(code).toMatchSnapshot()
-})
+  const { code } = babel.transform(example, { presets: [preset] });
+  expect(code).toMatchSnapshot();
+});

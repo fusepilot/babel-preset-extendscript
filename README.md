@@ -1,14 +1,17 @@
 # babel-preset-extendscript
 
 ## What
+
 Babel preset for transpiling ES2015 and modern JS conventions to ES3. Mainly intended for use with Extendscript. 😱
 
 ## Why
+
 Because modern Javascript has improved since the 90's. Thanks Adobe.
 
 ## Install
 
 With NPM:
+
 ```sh
 $ npm install --save-dev babel-preset-extendscript
 ```
@@ -40,8 +43,8 @@ $ babel script.js --presets extendscript
 ### Via Node API
 
 ```javascript
-require("babel-core").transform("code", {
-  presets: ["extendscript"]
+require('babel-core').transform('code', {
+  presets: ['extendscript'],
 });
 ```
 
@@ -67,9 +70,11 @@ require("babel-core").transform("code", {
 ## Features
 
 ### ES2015
+
 * babel-plugin-transform-es2015
 
 ### Convenience
+
 * console.log
 * JSON.stringify
 * JSON.parse
@@ -79,6 +84,7 @@ require("babel-core").transform("code", {
 * clearInterval
 
 ### Shims
+
 * Object.keys
 * Object.assign
 * Object.create
@@ -91,6 +97,7 @@ require("babel-core").transform("code", {
 * Array.prototype.reduce
 
 ### Shams
+
 * Object.getPrototypeOf
 * Object.defineProperty
 * Object.defineProperties
@@ -103,7 +110,9 @@ require("babel-core").transform("code", {
 * Object.isExtensible
 
 ### Fixes
+
 * Wraps all conditional expressions in parentheses to prevent `Expected: :` error.
 
 ## Known Issues
+
 • CallExpression's that uses other transforms from this preset only insert them 1 level deep due to path.unshiftContainer adding a new CallExpression in Program:exit(). Need to figure out a way to do another Program:exit() after the first if new CallExpressions have been added so state[name].matches can be += 1'd.

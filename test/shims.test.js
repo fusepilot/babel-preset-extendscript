@@ -1,34 +1,34 @@
-const preset = require('../src')
-const babel = require('babel-core')
+const preset = require('../src');
+const babel = require('babel-core');
 
 it('Object.keys', () => {
   const example = `
   var obj = { 0: 'a', 1: 'b', 2: 'c' }
   $.writeln(Object.keys(obj)); // console: ['0', '1', '2']
-  `
+  `;
 
-  const { code } = babel.transform(example, { presets: [preset] })
-  expect(code).toMatchSnapshot()
-})
+  const { code } = babel.transform(example, { presets: [preset] });
+  expect(code).toMatchSnapshot();
+});
 
 it('Object.create', () => {
   const example = `
   var o = Object.create({}, { p: { value: 42 } });
-  `
+  `;
 
-  const { code } = babel.transform(example, { presets: [preset] })
-  expect(code).toMatchSnapshot()
-})
+  const { code } = babel.transform(example, { presets: [preset] });
+  expect(code).toMatchSnapshot();
+});
 
 it('Object.assign', () => {
   const example = `
   var obj = { a: 1 };
   var copy = Object.assign({}, obj);
-  `
+  `;
 
-  const { code } = babel.transform(example, { presets: [preset] })
-  expect(code).toMatchSnapshot()
-})
+  const { code } = babel.transform(example, { presets: [preset] });
+  expect(code).toMatchSnapshot();
+});
 
 it('Array.isArray', () => {
   const example = `
@@ -48,11 +48,11 @@ it('Array.isArray', () => {
   Array.isArray(true);
   Array.isArray(false);
   Array.isArray({ __proto__: Array.prototype });
-  `
+  `;
 
-  const { code } = babel.transform(example, { presets: [preset] })
-  expect(code).toMatchSnapshot()
-})
+  const { code } = babel.transform(example, { presets: [preset] });
+  expect(code).toMatchSnapshot();
+});
 
 it('Number.isFinite', () => {
   const example = `
@@ -67,11 +67,11 @@ it('Number.isFinite', () => {
                               // global isFinite('0')
   Number.isFinite(null);      // false, would've been true with
                               // global isFinite(null)
-  `
+  `;
 
-  const { code } = babel.transform(example, { presets: [preset] })
-  expect(code).toMatchSnapshot()
-})
+  const { code } = babel.transform(example, { presets: [preset] });
+  expect(code).toMatchSnapshot();
+});
 
 it('Array.prototype.forEach()', () => {
   const example = `
@@ -81,11 +81,11 @@ it('Array.prototype.forEach()', () => {
   items.forEach(function(item){
     copy.push(item)
   });
-  `
+  `;
 
-  const { code } = babel.transform(example, { presets: [preset] })
-  expect(code).toMatchSnapshot()
-})
+  const { code } = babel.transform(example, { presets: [preset] });
+  expect(code).toMatchSnapshot();
+});
 
 it('Array.prototype.find()', () => {
   const example = `
@@ -100,11 +100,11 @@ it('Array.prototype.find()', () => {
   }
 
   $.writeln(inventory.find(findCherries));
-  `
+  `;
 
-  const { code } = babel.transform(example, { presets: [preset] })
-  expect(code).toMatchSnapshot()
-})
+  const { code } = babel.transform(example, { presets: [preset] });
+  expect(code).toMatchSnapshot();
+});
 
 it('Array.prototype.filter()', () => {
   const example = `
@@ -114,11 +114,11 @@ it('Array.prototype.filter()', () => {
   
   var filtered = [12, 5, 8, 130, 44].filter(isBigEnough);
   // filtered is [12, 130, 44]
-  `
+  `;
 
-  const { code } = babel.transform(example, { presets: [preset] })
-  expect(code).toMatchSnapshot()
-})
+  const { code } = babel.transform(example, { presets: [preset] });
+  expect(code).toMatchSnapshot();
+});
 
 it('Array.prototype.map()', () => {
   const example = `
@@ -126,11 +126,11 @@ it('Array.prototype.map()', () => {
   var roots = numbers.map(Math.sqrt);
   // roots is now [1, 2, 3]
   // numbers is still [1, 4, 9]
-  `
+  `;
 
-  const { code } = babel.transform(example, { presets: [preset] })
-  expect(code).toMatchSnapshot()
-})
+  const { code } = babel.transform(example, { presets: [preset] });
+  expect(code).toMatchSnapshot();
+});
 
 it('Array.prototype.reduce()', () => {
   const example = `
@@ -146,8 +146,8 @@ it('Array.prototype.reduce()', () => {
   // log the result
   $.writeln(result);
   // expected output: 6
-  `
+  `;
 
-  const { code } = babel.transform(example, { presets: [preset] })
-  expect(code).toMatchSnapshot()
-})
+  const { code } = babel.transform(example, { presets: [preset] });
+  expect(code).toMatchSnapshot();
+});

@@ -9,7 +9,7 @@
  * For backward-compatibility with anything that may have been loading this preset and expecting
  * it to be a simple Babel config object, we maintain the old config here.
  */
-module.exports = preset({})
+module.exports = preset({});
 
 // For backward compatibility with babel-core < v6.13.x, we use the 'buildPreset' property
 // of the preset object for the preset creation function.
@@ -20,26 +20,27 @@ Object.defineProperty(module.exports, 'buildPreset', {
   // while allowing new versions to see it as a preset builder function.
   enumerable: false,
   value: preset,
-})
+});
 
 function preset(context, opts) {
-  const moduleTypes = ['commonjs', 'amd', 'umd', 'systemjs']
-  let loose = false
-  let modules = 'commonjs'
-  let root
+  const moduleTypes = ['commonjs', 'amd', 'umd', 'systemjs'];
+  let loose = false;
+  let modules = 'commonjs';
+  let root;
 
   if (opts !== undefined) {
-    if (opts.loose !== undefined) loose = opts.loose
-    if (opts.modules !== undefined) modules = opts.modules
-    if (opts.root !== undefined) root = opts.root
+    if (opts.loose !== undefined) loose = opts.loose;
+    if (opts.modules !== undefined) modules = opts.modules;
+    if (opts.root !== undefined) root = opts.root;
   }
 
-  if (typeof loose !== 'boolean') throw new Error("Preset es2015 'loose' option must be a boolean.")
+  if (typeof loose !== 'boolean')
+    throw new Error("Preset es2015 'loose' option must be a boolean.");
   if (modules !== false && moduleTypes.indexOf(modules) === -1) {
     throw new Error(
       "Preset es2015 'modules' option must be 'false' to indicate no modules\n" +
         "or a module type which be be one of: 'commonjs' (default), 'amd', 'umd', 'systemjs'"
-    )
+    );
   }
 
   return {
@@ -64,10 +65,13 @@ function preset(context, opts) {
       require('babel-plugin-transform-es2015-block-scoping'),
       require('babel-plugin-transform-es2015-typeof-symbol'),
       require('babel-plugin-transform-es3-property-literals'),
-      [require('babel-plugin-transform-object-rest-spread'), { useBuiltIns: true }],
+      [
+        require('babel-plugin-transform-object-rest-spread'),
+        { useBuiltIns: true },
+      ],
 
       ...require('./transformers'),
       ...require('./json'),
     ].filter(Boolean),
-  }
+  };
 }

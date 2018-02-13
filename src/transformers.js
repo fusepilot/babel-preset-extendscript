@@ -1,4 +1,4 @@
-const template = require('babel-template')
+const template = require('babel-template');
 
 const consoleTime = `
 var NAME_TIME;
@@ -18,7 +18,7 @@ var NAME_TIME_END;
     }
   };
 })()
-`
+`;
 
 const setTimeout = `
 function NAME() {
@@ -35,7 +35,7 @@ function NAME() {
     return app.scheduleTask('$._timers["' + id + '"]();',millis,false);
   };
 }()
-`
+`;
 
 const setInterval = `
 function NAME() {
@@ -53,19 +53,19 @@ function NAME() {
     return app.scheduleTask('$._intervals["' + id + '"]();',millis,true);
   };
 }()
-`
+`;
 
 const clearTimeout = `
 function(id) {
   app.cancelTask(id);
 };
-`
+`;
 
 const clearInterval = `
 function(id) {
   app.cancelTask(id);
 };
-`
+`;
 
 const consoleLog = `
 function() {
@@ -75,7 +75,7 @@ function() {
   }
   GLOBAL.writeln();
 };
-`
+`;
 
 // http://es5.github.com/#x15.2.3.8
 const objectSeal = `
@@ -88,7 +88,7 @@ function(object) {
   // but insecure code.
   return object;
 };
-`
+`;
 
 // http://es5.github.com/#x15.2.3.9
 const objectFreeze = `
@@ -101,7 +101,7 @@ function(object) {
   // but insecure code.
   return object;
 };
-`
+`;
 
 // http://es5.github.com/#x15.2.3.10
 const objectPreventExtensions = `
@@ -114,7 +114,7 @@ function(object) {
   // but insecure code.
   return object;
 };
-`
+`;
 
 // http://es5.github.com/#x15.2.3.11
 const objectIsSealed = `
@@ -124,7 +124,7 @@ function(object) {
   }
   return false;
 };
-`
+`;
 
 // http://es5.github.com/#x15.2.3.12
 const objectIsFrozen = `
@@ -134,7 +134,7 @@ function(object) {
   }
   return false;
 };
-`
+`;
 
 // http://es5.github.com/#x15.2.3.13
 const objectIsExtensible = `
@@ -153,7 +153,7 @@ function(object) {
   delete object[name];
   return returnValue;
 };
-`
+`;
 
 // https://gist.github.com/jonfalcon/4715325
 const objectKeys = `
@@ -192,7 +192,7 @@ function(obj) {
   }
   return result;
 };
-`
+`;
 
 const objectGetProtoOf = `
 function(object) {
@@ -213,7 +213,7 @@ function(object) {
         return null;
     }
 };
-`
+`;
 
 const objectAssign = `
 function(target, source) {
@@ -226,13 +226,13 @@ function(target, source) {
   }
   return target;
 }
-`
+`;
 
 const objectGetOwnPropertyNames = `
 function(object) {
   return Object.keys(object);
 };
-`
+`;
 
 const objectGetOwnPropertyDescriptor = `
 function( object, key ) {
@@ -243,7 +243,7 @@ function( object, key ) {
     value: object[ key ]
   }
 }
-`
+`;
 
 const objectCreate = `
 (function() {
@@ -265,7 +265,7 @@ const objectCreate = `
     return result;
   };
 })()
-`
+`;
 
 const objectDefineProperty = `
 function(object, property, descriptor) {
@@ -281,7 +281,7 @@ function(object, property, descriptor) {
 
   return object;
 };
-`
+`;
 
 const objectDefineProperties = `
 function(object, descriptors) {
@@ -291,44 +291,49 @@ function(object, descriptors) {
   }
   return object;
 };
-`
+`;
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
 const arrayIsArray = `
 function(arg) {
   return Object.prototype.toString.call(arg) === '[object Array]';
 };
-`
+`;
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isFinite
 const numberIsFinite = `
 function(arg) {
   return typeof arg === "number" && isFinite(arg);
 };
-`
+`;
 
 function createTransformPlugin(name, replace, code) {
   return function({ types: t }) {
-    const defineName = name
+    const defineName = name;
     return {
       visitor: {
         CallExpression(path, state) {
-          if (path.get('callee').matchesPattern(replace) || path.node.callee.name == replace) {
-            state[name].matches += 1
+          if (
+            path.get('callee').matchesPattern(replace) ||
+            path.node.callee.name == replace
+          ) {
+            state[name].matches += 1;
             path.replaceWith(
               template(`${state[name].name}(ARGS)`)({
                 GLOBAL: t.identifier('$'),
                 ARGS: path.node.arguments,
               })
-            )
+            );
           }
         },
         MemberExpression: {
           enter(path, state) {
-            const memberName = `${path.node.object.name}.${path.node.property.name}`
+            const memberName = `${path.node.object.name}.${
+              path.node.property.name
+            }`;
 
             if (memberName == replace) {
-              state[name].matches += 1
-              path.replaceWith(t.identifier(state[name].name))
+              state[name].matches += 1;
+              path.replaceWith(t.identifier(state[name].name));
             }
           },
         },
@@ -337,24 +342,24 @@ function createTransformPlugin(name, replace, code) {
             state[name] = {
               name: path.scope.generateUidIdentifier(name).name,
               matches: 0,
-            }
+            };
           },
           exit(path, state) {
-            if (state[name].matches == 0) return
+            if (state[name].matches == 0) return;
 
-            const topNodes = []
+            const topNodes = [];
             topNodes.push(
               template(`var ${state[name].name} = ${code}`)({
                 GLOBAL: t.identifier('$'),
                 NAME: t.identifier(state[name].name),
               })
-            )
-            path.unshiftContainer('body', topNodes)
+            );
+            path.unshiftContainer('body', topNodes);
           },
         },
       },
-    }
-  }
+    };
+  };
 }
 
 function createTransformPluginMultiple(name, replacers, code) {
@@ -363,50 +368,57 @@ function createTransformPluginMultiple(name, replacers, code) {
       visitor: {
         CallExpression: function(path, state) {
           Object.keys(replacers).map(key => {
-            const replace = key
-            const token = replacers[key]
+            const replace = key;
+            const token = replacers[key];
 
-            if (path.get('callee').matchesPattern(replace) || path.node.callee.name == replace) {
-              state[name].matches = state[name].matches + 1
+            if (
+              path.get('callee').matchesPattern(replace) ||
+              path.node.callee.name == replace
+            ) {
+              state[name].matches = state[name].matches + 1;
               path.replaceWith(
                 template(`${state[name].tokens[token]}(ARGS)`)({
                   GLOBAL: t.identifier('$'),
                   ARGS: path.node.arguments,
                 })
-              )
+              );
             }
-          })
+          });
         },
         Program: {
           enter(path, state) {
             state[name] = {
               matches: 0,
               tokens: {},
-            }
+            };
             Object.keys(replacers).map(key => {
-              const replace = key
-              const token = replacers[key]
-              state[name].tokens[token] = path.scope.generateUidIdentifier(replace).name
-            })
+              const replace = key;
+              const token = replacers[key];
+              state[name].tokens[token] = path.scope.generateUidIdentifier(
+                replace
+              ).name;
+            });
           },
           exit(path, state) {
-            if (!code || !state[name] || state[name].matches == 0) return
+            if (!code || !state[name] || state[name].matches == 0) return;
 
-            const topNodes = []
-            const tokens = {}
+            const topNodes = [];
+            const tokens = {};
             Object.keys(state[name].tokens).forEach(token => {
-              tokens[token] = t.identifier(state[name].tokens[token])
-            })
+              tokens[token] = t.identifier(state[name].tokens[token]);
+            });
 
             topNodes.push(
-              template(`${code}`)(Object.assign({}, { GLOBAL: t.identifier('$') }, tokens))
-            )
-            path.unshiftContainer('body', topNodes[0])
+              template(`${code}`)(
+                Object.assign({}, { GLOBAL: t.identifier('$') }, tokens)
+              )
+            );
+            path.unshiftContainer('body', topNodes[0]);
           },
         },
       },
-    }
-  }
+    };
+  };
 }
 
 function createTransformPluginNoWrap(replace, code) {
@@ -414,27 +426,32 @@ function createTransformPluginNoWrap(replace, code) {
     return {
       visitor: {
         CallExpression: function(path, file) {
-          if (path.get('callee').matchesPattern(replace) || path.node.callee.name == replace) {
+          if (
+            path.get('callee').matchesPattern(replace) ||
+            path.node.callee.name == replace
+          ) {
             path.replaceWith(
               template(code)({
                 GLOBAL: t.identifier('$'),
                 ARGS: path.node.arguments,
               })
-            )
+            );
           }
         },
         MemberExpression: {
           exit(path, state) {
-            const memberName = `${path.node.object.name}.${path.node.property.name}`
+            const memberName = `${path.node.object.name}.${
+              path.node.property.name
+            }`;
 
             if (memberName == replace) {
-              path.replaceWith(t.identifier('$.writeln'))
+              path.replaceWith(t.identifier('$.writeln'));
             }
           },
         },
       },
-    }
-  }
+    };
+  };
 }
 
 function wrapNestedConditionalExpressions({ types: t }) {
@@ -442,14 +459,14 @@ function wrapNestedConditionalExpressions({ types: t }) {
     visitor: {
       ConditionalExpression: {
         exit(path) {
-          const { node } = path
+          const { node } = path;
           if (path.parent.type == 'ConditionalExpression') {
-            path.replaceWith(t.parenthesizedExpression(t.toExpression(node)))
+            path.replaceWith(t.parenthesizedExpression(t.toExpression(node)));
           }
         },
       },
     },
-  }
+  };
 }
 
 const codeArrayFilter = `
@@ -460,7 +477,7 @@ function(array, callback) {
   }
   return newArray;
 };
-`
+`;
 
 const codeArrayMap = `
 function(array, callback) {
@@ -470,7 +487,7 @@ function(array, callback) {
   }
   return newArray;
 };
-`
+`;
 
 const codeArrayReduce = `
 function(array, callback) {
@@ -499,7 +516,7 @@ function(array, callback) {
   }
   return value;
 };
-`
+`;
 
 const codeArrayForEach = `
 function(array, callback) {
@@ -507,7 +524,7 @@ function(array, callback) {
     callback(array[i], i, array);
   }
 };
-`
+`;
 
 const codeArrayFind = `
 function(array, callback) {
@@ -516,50 +533,52 @@ function(array, callback) {
     if (callback(item, i, array)) return item;
   }
 };
-`
+`;
 
 function createMemberExpressionPolyfill(name, replace, code) {
-  const replaceWith = `_${replace}`
+  const replaceWith = `_${replace}`;
   return function({ types: t }) {
     return {
       visitor: {
         Program: {
           enter(path, state) {
-            state[name] = {}
-            state[name].name = path.scope.generateUidIdentifier(replaceWith).name
-            state[name].matches = 0
+            state[name] = {};
+            state[name].name = path.scope.generateUidIdentifier(
+              replaceWith
+            ).name;
+            state[name].matches = 0;
           },
           exit(path, state) {
-            if (!state[name].matches > 0) return
+            if (!state[name].matches > 0) return;
 
-            const topNodes = []
+            const topNodes = [];
             topNodes.push(
               template(`var ${state[name].name} = ${code}`)({
                 GLOBAL: t.identifier('$'),
                 NAME: t.identifier(state[name].name),
               })
-            )
-            path.unshiftContainer('body', topNodes)
+            );
+            path.unshiftContainer('body', topNodes);
           },
         },
         CallExpression(path, state) {
-          const callee = path.node.callee
-          const node = path.node
+          const callee = path.node.callee;
+          const node = path.node;
 
           if (t.isIdentifier(callee.property, { name: replace })) {
-            state[name].matches = state[name].matches + 1
+            state[name].matches = state[name].matches + 1;
 
-            let arrayName
-            const callback = node.arguments[0]
+            let arrayName;
+            const callback = node.arguments[0];
 
-            let array
+            let array;
 
             if (!t.isIdentifier(callee.object)) {
               // e.g, getItems().forEach
-              array = callee.object
+              array = callee.object;
             } else {
               // myArray.forEach
-              array = t.identifier(callee.object.name)
+              array = t.identifier(callee.object.name);
             }
 
             path.replaceWith(
@@ -568,12 +587,12 @@ function createMemberExpressionPolyfill(name, replace, code) {
                 UPDATE_FUNCTION: callback,
                 GENERATED_FUNCTION_NAME: t.identifier(state[name].name),
               })
-            )
+            );
           }
         },
       },
-    }
-  }
+    };
+  };
 }
 
 module.exports = [
@@ -585,8 +604,16 @@ module.exports = [
   createTransformPlugin('_clearInterval', 'clearInterval', clearInterval),
 
   // shams
-  createTransformPlugin('_objectGetProtoOf', 'Object.getPrototypeOf', objectGetProtoOf),
-  createTransformPlugin('_objectDefineProperty', 'Object.defineProperty', objectDefineProperty),
+  createTransformPlugin(
+    '_objectGetProtoOf',
+    'Object.getPrototypeOf',
+    objectGetProtoOf
+  ),
+  createTransformPlugin(
+    '_objectDefineProperty',
+    'Object.defineProperty',
+    objectDefineProperty
+  ),
   createTransformPlugin(
     '_objectDefineProperties',
     'Object.defineProperties',
@@ -606,7 +633,11 @@ module.exports = [
   createTransformPlugin('_objectFreeze', 'Object.freeze', objectFreeze),
   createTransformPlugin('_objectIsSealed', 'Object.isSealed', objectIsSealed),
   createTransformPlugin('_objectIsFrozen', 'Object.isFrozen', objectIsFrozen),
-  createTransformPlugin('_objectIsExtensible', 'Object.isExtensible', objectIsExtensible),
+  createTransformPlugin(
+    '_objectIsExtensible',
+    'Object.isExtensible',
+    objectIsExtensible
+  ),
 
   // shims
   createTransformPlugin('_objectKeys', 'Object.keys', objectKeys),
@@ -636,4 +667,4 @@ module.exports = [
 
   // fixes
   wrapNestedConditionalExpressions,
-]
+];

@@ -9,20 +9,18 @@
       f: '\f',
       n: '\n',
       r: '\r',
-      t: '\t'
+      t: '\t',
     },
     text,
-
     error = function(m) {
       // Call error when something is wrong.
       throw {
         name: 'SyntaxError',
         message: m,
         at: at,
-        text: text
+        text: text,
       };
     },
-
     next = function(c) {
       // If a c parameter is provided, verify that it matches the current character.
       if (c && c !== ch) {
@@ -36,7 +34,6 @@
       at += 1;
       return ch;
     },
-
     number = function() {
       // Parse a number value.
       var number,
@@ -70,12 +67,11 @@
       }
       number = +string;
       if (!isFinite(number)) {
-        error("Bad number");
+        error('Bad number');
       } else {
         return number;
       }
     },
-
     string = function() {
       // Parse a string value.
       var hex,
@@ -111,20 +107,16 @@
           }
         }
       }
-      error("Bad string");
+      error('Bad string');
     },
-
     white = function() {
-
       // Skip whitespace.
 
       while (ch && ch <= ' ') {
         next();
       }
     },
-
     word = function() {
-
       // true, false, or null.
 
       switch (ch) {
@@ -150,11 +142,8 @@
       }
       error("Unexpected '" + ch + "'");
     },
-
     value, // Place holder for the value function.
-
     array = function() {
-
       // Parse an array value.
 
       var array = [];
@@ -177,11 +166,9 @@
           white();
         }
       }
-      error("Bad array");
+      error('Bad array');
     },
-
     object = function() {
-
       // Parse an object value.
 
       var key,
@@ -211,11 +198,10 @@
           white();
         }
       }
-      error("Bad object");
+      error('Bad object');
     };
 
   value = function() {
-
     // Parse a JSON value. It could be an object, an array, a string, a number,
     // or a word.
 
@@ -243,7 +229,7 @@
     result = value();
     white();
     if (ch) {
-      error("Syntax error");
+      error('Syntax error');
     }
 
     // If there is a reviver function, we recursively walk the new structure,
@@ -252,23 +238,30 @@
     // in an empty key. If there is not a reviver function, we simply return the
     // result.
 
-    return typeof reviver === 'function' ? (function walk(holder, key) {
-      var k, v, value = holder[key];
-      if (value && typeof value === 'object') {
-        for (k in value) {
-          if (Object.prototype.hasOwnProperty.call(value, k)) {
-            v = walk(value, k);
-            if (v !== undefined) {
-              value[k] = v;
-            } else {
-              delete value[k];
+    return typeof reviver === 'function'
+      ? (function walk(holder, key) {
+          var k,
+            v,
+            value = holder[key];
+          if (value && typeof value === 'object') {
+            for (k in value) {
+              if (Object.prototype.hasOwnProperty.call(value, k)) {
+                v = walk(value, k);
+                if (v !== undefined) {
+                  value[k] = v;
+                } else {
+                  delete value[k];
+                }
+              }
             }
           }
-        }
-      }
-      return reviver.call(holder, key, value);
-    }({
-      '': result
-    }, '')) : result;
+          return reviver.call(holder, key, value);
+        })(
+          {
+            '': result,
+          },
+          ''
+        )
+      : result;
   };
-})()
+})();
