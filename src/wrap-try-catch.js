@@ -106,7 +106,7 @@ module.exports = function({ template, types: t }) {
           if (path.node.type === 'FunctionDeclaration') {
             functionName = path.node.id.name;
           } else {
-            let newFunction = namedFunction(path);
+            let newFunction = path && path.node;
             if (newFunction && newFunction.id) {
               functionName = newFunction.id.name;
             }
