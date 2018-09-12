@@ -72,7 +72,6 @@ function preset(context, opts) {
 
       ...require('./transformers'),
       ...require('./json'),
-      require('./wrap-try-catch'),
     ].filter(Boolean),
   };
 }
