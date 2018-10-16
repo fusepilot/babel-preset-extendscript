@@ -63,7 +63,6 @@ function preset(context, opts) {
       require('babel-plugin-transform-es2015-parameters'),
       [require('babel-plugin-transform-es2015-destructuring'), { loose }],
       require('babel-plugin-transform-es2015-block-scoping'),
-      require('babel-plugin-transform-es2015-typeof-symbol'),
       require('babel-plugin-transform-es3-property-literals'),
       [
         require('babel-plugin-transform-object-rest-spread'),
