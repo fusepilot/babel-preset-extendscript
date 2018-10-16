@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`JSON.parse 1`] = `
-"var _typeof = typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj; };
-
-var _jsonParse = function () {
+"var _jsonParse = function () {
   var at,
       ch,
       escapee = {
@@ -74,7 +72,7 @@ var _jsonParse = function () {
     number = +string;
 
     if (!isFinite(number)) {
-      error(\\"Bad number\\");
+      error('Bad number');
     } else {
       return number;
     }
@@ -118,7 +116,7 @@ var _jsonParse = function () {
       }
     }
 
-    error(\\"Bad string\\");
+    error('Bad string');
   },
       white = function white() {
     while (ch && ch <= ' ') {
@@ -179,7 +177,7 @@ var _jsonParse = function () {
       }
     }
 
-    error(\\"Bad array\\");
+    error('Bad array');
   },
       object = function object() {
     var key,
@@ -216,7 +214,7 @@ var _jsonParse = function () {
       }
     }
 
-    error(\\"Bad object\\");
+    error('Bad object');
   };
 
   value = function value() {
@@ -249,7 +247,7 @@ var _jsonParse = function () {
     white();
 
     if (ch) {
-      error(\\"Syntax error\\");
+      error('Syntax error');
     }
 
     return typeof reviver === 'function' ? function walk(holder, key) {
@@ -257,7 +255,7 @@ var _jsonParse = function () {
           v,
           value = holder[key];
 
-      if (value && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
+      if (value && typeof value === 'object') {
         for (k in value) {
           if (Object.prototype.hasOwnProperty.call(value, k)) {
             v = walk(value, k);
@@ -286,9 +284,7 @@ _jsonParse('null'); // null"
 `;
 
 exports[`JSON.stringify 1`] = `
-"var _typeof = typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj; };
-
-var _jsonStringify = function () {
+"var _jsonStringify = function () {
   var cx = /[\\\\u0000\\\\u00ad\\\\u0600-\\\\u0604\\\\u070f\\\\u17b4\\\\u17b5\\\\u200c-\\\\u200f\\\\u2028-\\\\u202f\\\\u2060-\\\\u206f\\\\ufeff\\\\ufff0-\\\\uffff]/g,
       escapable = /[\\\\\\\\\\\\\\"\\\\x00-\\\\x1f\\\\x7f-\\\\x9f\\\\u00ad\\\\u0600-\\\\u0604\\\\u070f\\\\u17b4\\\\u17b5\\\\u200c-\\\\u200f\\\\u2028-\\\\u202f\\\\u2060-\\\\u206f\\\\ufeff\\\\ufff0-\\\\uffff]/g,
       gap,
@@ -321,7 +317,7 @@ var _jsonStringify = function () {
         partial,
         value = holder[key];
 
-    if (value && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && typeof value.toJSON === 'function') {
+    if (value && typeof value === 'object' && typeof value.toJSON === 'function') {
       value = value.toJSON(key);
     }
 
@@ -329,7 +325,7 @@ var _jsonStringify = function () {
       value = rep.call(holder, key, value);
     }
 
-    switch (typeof value === 'undefined' ? 'undefined' : _typeof(value)) {
+    switch (typeof value) {
       case 'string':
         return quote(value);
 
@@ -357,7 +353,7 @@ var _jsonStringify = function () {
           return v;
         }
 
-        if (rep && (typeof rep === 'undefined' ? 'undefined' : _typeof(rep)) === 'object') {
+        if (rep && typeof rep === 'object') {
           length = rep.length;
 
           for (i = 0; i < length; i += 1) {
@@ -404,7 +400,7 @@ var _jsonStringify = function () {
 
     rep = replacer;
 
-    if (replacer && typeof replacer !== 'function' && ((typeof replacer === 'undefined' ? 'undefined' : _typeof(replacer)) !== 'object' || typeof replacer.length !== 'number')) {
+    if (replacer && typeof replacer !== 'function' && (typeof replacer !== 'object' || typeof replacer.length !== 'number')) {
       throw new Error('JSON.stringify');
     }
 
@@ -480,7 +476,7 @@ _jsonStringify(_defineProperty({}, Symbol('foo'), 'foo'));
 _jsonStringify(_defineProperty({}, Symbol.for('foo'), 'foo'), [Symbol.for('foo')]);
 // '{}'
 _jsonStringify(_defineProperty({}, Symbol.for('foo'), 'foo'), function (k, v) {
-  if ((typeof k === 'undefined' ? 'undefined' : _typeof(k)) === 'symbol') {
+  if (typeof k === 'symbol') {
     return 'a symbol';
   }
 });
