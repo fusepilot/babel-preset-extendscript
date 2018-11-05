@@ -6,21 +6,34 @@ exports[`Array.isArray 1`] = `
 };
 
 _arrayIsArray([]);
-_arrayIsArray([1]);
-_arrayIsArray(new Array());
-// Little known fact: Array.prototype itself is an array:
-_arrayIsArray(Array.prototype);
 
-// all following calls return false
+_arrayIsArray([1]);
+
+_arrayIsArray(new Array()); // Little known fact: Array.prototype itself is an array:
+
+
+_arrayIsArray(Array.prototype); // all following calls return false
+
+
 _arrayIsArray();
+
 _arrayIsArray({});
+
 _arrayIsArray(null);
+
 _arrayIsArray(undefined);
+
 _arrayIsArray(17);
+
 _arrayIsArray('Array');
+
 _arrayIsArray(true);
+
 _arrayIsArray(false);
-_arrayIsArray({ __proto__: Array.prototype });"
+
+_arrayIsArray({
+  __proto__: Array.prototype
+});"
 `;
 
 exports[`Array.prototype.filter() 1`] = `
@@ -38,8 +51,7 @@ function isBigEnough(value) {
   return value >= 10;
 }
 
-var filtered = _filter([12, 5, 8, 130, 44], isBigEnough);
-// filtered is [12, 130, 44]"
+var filtered = _filter([12, 5, 8, 130, 44], isBigEnough); // filtered is [12, 130, 44]"
 `;
 
 exports[`Array.prototype.find() 1`] = `
@@ -50,7 +62,16 @@ exports[`Array.prototype.find() 1`] = `
   }
 };
 
-var inventory = [{ name: 'apples', quantity: 2 }, { name: 'bananas', quantity: 0 }, { name: 'cherries', quantity: 5 }];
+var inventory = [{
+  name: 'apples',
+  quantity: 2
+}, {
+  name: 'bananas',
+  quantity: 0
+}, {
+  name: 'cherries',
+  quantity: 5
+}];
 
 function findCherries(fruit) {
   return fruit.name === 'cherries';
@@ -86,77 +107,86 @@ exports[`Array.prototype.map() 1`] = `
 };
 
 var numbers = [1, 4, 9];
-var roots = _map(numbers, Math.sqrt);
-// roots is now [1, 2, 3]
+
+var roots = _map(numbers, Math.sqrt); // roots is now [1, 2, 3]
 // numbers is still [1, 4, 9]"
 `;
 
 exports[`Array.prototype.reduce() 1`] = `
 "var _reduce = function _reduce(array, callback) {
-    if (array == null) {
-        throw new TypeError('Array.prototype.reduce called on null or undefined');
+  if (array == null) {
+    throw new TypeError('Array.prototype.reduce called on null or undefined');
+  }
+
+  if (typeof callback !== 'function') {
+    throw new TypeError(callback + ' is not a function');
+  }
+
+  var t = Object(array),
+      len = t.length >>> 0,
+      k = 0,
+      value;
+
+  if (arguments.length == 2) {
+    value = arguments[1];
+  } else {
+    while (k < len && !(k in t)) {
+      k++;
     }
 
-    if (typeof callback !== 'function') {
-        throw new TypeError(callback + ' is not a function');
+    if (k >= len) {
+      throw new TypeError('Reduce of empty array with no initial value');
     }
 
-    var t = Object(array),
-        len = t.length >>> 0,
-        k = 0,
-        value;
+    value = t[k++];
+  }
 
-    if (arguments.length == 2) {
-        value = arguments[1];
-    } else {
-        while (k < len && !(k in t)) {
-            k++;
-        }
-
-        if (k >= len) {
-            throw new TypeError('Reduce of empty array with no initial value');
-        }
-
-        value = t[k++];
+  for (; k < len; k++) {
+    if (k in t) {
+      value = callback(value, t[k], k, t);
     }
+  }
 
-    for (; k < len; k++) {
-        if (k in t) {
-            value = callback(value, t[k], k, t);
-        }
-    }
-
-    return value;
+  return value;
 };
 
 // create an array
 var numbers = [0, 1, 2, 3];
-
 /* call reduce() on the array, passing a callback
 that adds all the values together */
-var result = _reduce(numbers, function (accumulator, currentValue) {
-    return accumulator + currentValue;
-});
 
-// log the result
-$.writeln(result);
-// expected output: 6"
+var result = _reduce(numbers, function (accumulator, currentValue) {
+  return accumulator + currentValue;
+}); // log the result
+
+
+$.writeln(result); // expected output: 6"
 `;
 
 exports[`Number.isFinite 1`] = `
 "var _numberIsFinite = function _numberIsFinite(arg) {
-                            return typeof arg === \\"number\\" && isFinite(arg);
+  return typeof arg === \\"number\\" && isFinite(arg);
 };
 
 _numberIsFinite(Infinity); // false
+
+
 _numberIsFinite(NaN); // false
+
+
 _numberIsFinite(-Infinity); // false
 
+
 _numberIsFinite(0); // true
+
+
 _numberIsFinite(2e64); // true
+
 
 _numberIsFinite('0'); // false, would've been true with
 // global isFinite('0')
+
+
 _numberIsFinite(null); // false, would've been true with
 // global isFinite(null)"
 `;
@@ -174,7 +204,10 @@ exports[`Object.assign 1`] = `
   return target;
 };
 
-var obj = { a: 1 };
+var obj = {
+  a: 1
+};
+
 var copy = _objectAssign({}, obj);"
 `;
 
@@ -204,7 +237,11 @@ exports[`Object.create 1`] = `
   };
 }();
 
-var o = _objectCreate({}, { p: { value: 42 } });"
+var o = _objectCreate({}, {
+  p: {
+    value: 42
+  }
+});"
 `;
 
 exports[`Object.keys 1`] = `
@@ -241,6 +278,10 @@ exports[`Object.keys 1`] = `
   return result;
 };
 
-var obj = { 0: 'a', 1: 'b', 2: 'c' };
+var obj = {
+  0: 'a',
+  1: 'b',
+  2: 'c'
+};
 $.writeln(_objectKeys(obj)); // console: ['0', '1', '2']"
 `;

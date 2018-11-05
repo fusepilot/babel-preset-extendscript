@@ -12,6 +12,7 @@ exports[`Object.defineProperties 1`] = `
 };
 
 var obj = {};
+
 _objectDefineProperties(obj, {
   'property1': {
     value: true,
@@ -19,9 +20,10 @@ _objectDefineProperties(obj, {
   },
   'property2': {
     value: 'Hello',
-    writable: false
-    // etc. etc.
-  } });"
+    writable: false // etc. etc.
+
+  }
+});"
 `;
 
 exports[`Object.defineProperty 1`] = `
@@ -71,9 +73,13 @@ exports[`Object.getOwnPropertyDescriptor 1`] = `
   };
 };
 
-var o = { get foo() {
+var o = {
+  get foo() {
     return 17;
-  } };
+  }
+
+};
+
 var d = _objectGetOwnPropertyDescriptor(o, 'foo');"
 `;
 
@@ -88,9 +94,12 @@ var _objectGetOwnPropertyNames = function _objectGetOwnPropertyNames(object) {
   return _objectKeys(object);
 };
 
-var obj = { 0: 'a', 1: 'b', 2: 'c' };
+var obj = {
+  0: 'a',
+  1: 'b',
+  2: 'c'
+}; // Logging property names and values using Array.forEach
 
-// Logging property names and values using Array.forEach
 _forEach(_objectGetOwnPropertyNames(obj), function (val, idx, array) {
   $.writeln(val + ' -> ' + obj[val]);
 });"
@@ -137,7 +146,9 @@ var _objectGetProtoOf = function _objectGetProtoOf(object) {
 };
 
 var proto = {};
+
 var obj = _objectCreate(proto);
+
 _objectGetProtoOf(obj) === proto;"
 `;
 
@@ -160,6 +171,7 @@ exports[`Object.isExtensible 1`] = `
 };
 
 var empty = {};
+
 _objectIsExtensible(empty);"
 `;
 
@@ -185,6 +197,7 @@ exports[`Object.isSealed 1`] = `
 };
 
 var empty = {};
+
 _objectIsSealed(empty);"
 `;
 
@@ -198,6 +211,7 @@ exports[`Object.preventExtensions 1`] = `
 };
 
 var empty = {};
+
 _objectPreventExtensions(empty);"
 `;
 

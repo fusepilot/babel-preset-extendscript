@@ -277,9 +277,17 @@ exports[`JSON.parse 1`] = `
 }();
 
 _jsonParse('{}'); // {}
+
+
 _jsonParse('true'); // true
+
+
 _jsonParse('\\"foo\\"'); // \\"foo\\"
+
+
 _jsonParse('[1, 5, \\"false\\"]'); // [1, 5, \\"false\\"]
+
+
 _jsonParse('null'); // null"
 `;
 
@@ -304,7 +312,7 @@ exports[`JSON.stringify 1`] = `
     escapable.lastIndex = 0;
     return escapable.test(string) ? '\\"' + string.replace(escapable, function (a) {
       var c = meta[a];
-      return typeof c === 'string' ? c : '\\\\\\\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+      return typeof c === 'string' ? c : \\"\\\\\\\\u\\" + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
     }) + '\\"' : '\\"' + string + '\\"';
   }
 
@@ -452,37 +460,69 @@ var _objectDefineProperty = function _objectDefineProperty(object, property, des
 function _defineProperty(obj, key, value) { if (key in obj) { _objectDefineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 _jsonStringify({}); // '{}'
+
+
 _jsonStringify(true); // 'true'
+
+
 _jsonStringify('foo'); // '\\"foo\\"'
+
+
 _jsonStringify([1, 'false', false]); // '[1,\\"false\\",false]'
-_jsonStringify({ x: 5 }); // '{\\"x\\":5}'
 
-_jsonStringify(new Date(2006, 0, 2, 15, 4, 5));
-// '\\"2006-01-02T15:04:05.000Z\\"'
 
-_jsonStringify({ x: 5, y: 6 });
-// '{\\"x\\":5,\\"y\\":6}'
-_jsonStringify([new Number(3), new String('false'), new Boolean(false)]);
-// '[3,\\"false\\",false]'
+_jsonStringify({
+  x: 5
+}); // '{\\"x\\":5}'
 
-_jsonStringify({ x: [10, undefined, function () {}, Symbol('')] });
-// '{\\"x\\":[10,null,null,null]}' 
 
+_jsonStringify(new Date(2006, 0, 2, 15, 4, 5)); // '\\"2006-01-02T15:04:05.000Z\\"'
+
+
+_jsonStringify({
+  x: 5,
+  y: 6
+}); // '{\\"x\\":5,\\"y\\":6}'
+
+
+_jsonStringify([new Number(3), new String('false'), new Boolean(false)]); // '[3,\\"false\\",false]'
+
+
+_jsonStringify({
+  x: [10, undefined, function () {}, Symbol('')]
+}); // '{\\"x\\":[10,null,null,null]}' 
 // Symbols:
-_jsonStringify({ x: undefined, y: Object, z: Symbol('') });
-// '{}'
-_jsonStringify(_defineProperty({}, Symbol('foo'), 'foo'));
-// '{}'
-_jsonStringify(_defineProperty({}, Symbol.for('foo'), 'foo'), [Symbol.for('foo')]);
-// '{}'
+
+
+_jsonStringify({
+  x: undefined,
+  y: Object,
+  z: Symbol('')
+}); // '{}'
+
+
+_jsonStringify(_defineProperty({}, Symbol('foo'), 'foo')); // '{}'
+
+
+_jsonStringify(_defineProperty({}, Symbol.for('foo'), 'foo'), [Symbol.for('foo')]); // '{}'
+
+
 _jsonStringify(_defineProperty({}, Symbol.for('foo'), 'foo'), function (k, v) {
   if (typeof k === 'symbol') {
     return 'a symbol';
   }
-});
-// '{}'
-
+}); // '{}'
 // Non-enumerable properties:
-_jsonStringify(_objectCreate(null, { x: { value: 'x', enumerable: false }, y: { value: 'y', enumerable: true } }));
-// '{\\"y\\":\\"y\\"}'"
+
+
+_jsonStringify(_objectCreate(null, {
+  x: {
+    value: 'x',
+    enumerable: false
+  },
+  y: {
+    value: 'y',
+    enumerable: true
+  }
+})); // '{\\"y\\":\\"y\\"}'"
 `;

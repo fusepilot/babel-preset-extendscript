@@ -12,7 +12,9 @@
     "develop": "jest --watchAll"
   },
   "dependencies": {
+    "@babel/core": "^7.0.0",
     "@babel/plugin-check-constants": "^7.0.0-beta.38",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/plugin-transform-arrow-functions": "^7.0.0",
     "@babel/plugin-transform-block-scoped-functions": "^7.0.0",
     "@babel/plugin-transform-block-scoping": "^7.0.0",
@@ -29,15 +31,14 @@
     "@babel/plugin-transform-modules-umd": "^7.1.0",
     "@babel/plugin-transform-object-super": "^7.1.0",
     "@babel/plugin-transform-parameters": "^7.1.0",
+    "@babel/plugin-transform-property-literals": "^7.0.0",
+    "@babel/plugin-transform-regenerator": "^7.0.0",
     "@babel/plugin-transform-shorthand-properties": "^7.0.0",
     "@babel/plugin-transform-spread": "^7.0.0",
     "@babel/plugin-transform-sticky-regex": "^7.0.0",
     "@babel/plugin-transform-template-literals": "^7.0.0",
     "@babel/plugin-transform-typeof-symbol": "^7.0.0",
     "@babel/plugin-transform-unicode-regex": "^7.0.0",
-    "@babel/plugin-transform-property-literals": "^7.0.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/plugin-transform-regenerator": "^7.0.0",
     "@babel/template": "^7.1.2"
   },
   "devDependencies": {
@@ -45,6 +46,8 @@
     "@babel/core": "^7.1.2",
     "@babel/helper-plugin-test-runner": "^7.1.0",
     "@babel/helper-transform-fixture-test-runner": "^7.1.2",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.4.2",
     "jest": "^23.6.0"
   }
 }
