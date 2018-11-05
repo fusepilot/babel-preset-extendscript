@@ -43,34 +43,36 @@ function preset(context, opts) {
     );
   }
 
-  return {
+  return () => ({
     plugins: [
-      [require('babel-plugin-transform-es2015-template-literals'), { loose }],
-      require('babel-plugin-transform-es2015-literals'),
-      require('babel-plugin-transform-es2015-function-name'),
-      [require('babel-plugin-transform-es2015-arrow-functions')],
-      require('babel-plugin-transform-es2015-block-scoped-functions'),
-      [require('babel-plugin-transform-es2015-classes'), { loose }],
-      require('babel-plugin-transform-es2015-object-super'),
-      require('babel-plugin-transform-es2015-shorthand-properties'),
-      require('babel-plugin-transform-es2015-duplicate-keys'),
-      [require('babel-plugin-transform-es2015-computed-properties'), { loose }],
-      [require('babel-plugin-transform-es2015-for-of'), { loose }],
-      require('babel-plugin-transform-es2015-sticky-regex'),
-      require('babel-plugin-transform-es2015-unicode-regex'),
-      require('babel-plugin-check-es2015-constants'),
-      [require('babel-plugin-transform-es2015-spread'), { loose }],
-      require('babel-plugin-transform-es2015-parameters'),
-      [require('babel-plugin-transform-es2015-destructuring'), { loose }],
-      require('babel-plugin-transform-es2015-block-scoping'),
-      require('babel-plugin-transform-es3-property-literals'),
+      [require('@babel/plugin-transform-template-literals').default, { loose }],
+      require('@babel/plugin-transform-literals').default,
+      require('@babel/plugin-transform-function-name').default,
+      [require('@babel/plugin-transform-arrow-functions').default],
+      require('@babel/plugin-transform-block-scoped-functions').default,
+      [require('@babel/plugin-transform-classes').default, { loose }],
+      require('@babel/plugin-transform-object-super').default,
+      require('@babel/plugin-transform-shorthand-properties').default,
+      require('@babel/plugin-transform-duplicate-keys').default,
       [
-        require('babel-plugin-transform-object-rest-spread'),
+        require('@babel/plugin-transform-computed-properties').default,
+        { loose },
+      ],
+      [require('@babel/plugin-transform-for-of').default, { loose }],
+      require('@babel/plugin-transform-sticky-regex').default,
+      require('@babel/plugin-transform-unicode-regex').default,
+      require('@babel/plugin-check-constants').default,
+      [require('@babel/plugin-transform-spread').default, { loose }],
+      require('@babel/plugin-transform-parameters').default,
+      [require('@babel/plugin-transform-destructuring').default, { loose }],
+      require('@babel/plugin-transform-block-scoping').default,
+      require('@babel/plugin-transform-property-literals').default,
+      [
+        require('@babel/plugin-proposal-object-rest-spread').default,
         { useBuiltIns: true },
       ],
-
       ...require('./transformers'),
       ...require('./json'),
     ].filter(Boolean),
-  };
+  });
 }
