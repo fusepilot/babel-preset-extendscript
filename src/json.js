@@ -1,4 +1,4 @@
-const template = require('@babel/template');
+const template = require('babel-template');
 const fs = require('fs');
 const path = require('path');
 

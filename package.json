@@ -39,7 +39,7 @@
     "@babel/plugin-transform-template-literals": "^7.0.0",
     "@babel/plugin-transform-typeof-symbol": "^7.0.0",
     "@babel/plugin-transform-unicode-regex": "^7.0.0",
-    "@babel/template": "^7.1.2"
+    "babel-template": "^6.26.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",

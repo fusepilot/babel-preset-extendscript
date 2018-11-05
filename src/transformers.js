@@ -1,4 +1,4 @@
-const template = require('@babel/template');
+const template = require('babel-template');
 
 const consoleTime = `
 var NAME_TIME;
