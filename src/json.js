@@ -1,4 +1,4 @@
-const template = require('babel-template');
+const template = require('@babel/template');
 const fs = require('fs');
 const path = require('path');
 
@@ -17,9 +17,8 @@ function createTransformPlugin(name, replace, code) {
         CallExpression: function(path, state) {
           if (path.get('callee').matchesPattern(replace)) {
             state[name] = true;
-
             path.replaceWith(
-              template(`${defineName}($0)`)(path.node.arguments)
+              template.default(`${defineName}($0)`)(path.node.arguments)
             );
           }
         },
@@ -30,7 +29,7 @@ function createTransformPlugin(name, replace, code) {
           exit(path, state) {
             if (!state[name]) return;
             const topNodes = [];
-            topNodes.push(template(`var ${defineName} = ${code}`)());
+            topNodes.push(template.default(`var ${defineName} = ${code}`, { placeholderPattern: false })());
             path.unshiftContainer('body', topNodes);
           },
         },
