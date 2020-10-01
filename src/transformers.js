@@ -498,8 +498,8 @@ function(array, callback) {
     throw new TypeError(callback + ' is not a function');
   }
   var t = Object(array), len = t.length >>> 0, k = 0, value;
-  if (arguments.length == 2) {
-    value = arguments[1];
+  if (arguments.length >= 3) {
+    value = arguments[2];
   } else {
     while (k < len && !(k in t)) {
       k++;
@@ -580,11 +580,20 @@ function createMemberExpressionPolyfill(name, replace, code) {
               // myArray.forEach
               array = t.identifier(callee.object.name);
             }
-
+            let extraVarsCode = '';
+            let extraVarsReplace = {};
+            if(node.arguments.length > 1) {
+              for(let i = 1; i < node.arguments.length; i++) {
+                const argName = `ARG${i}`;
+                extraVarsCode = `, ${argName}`
+                extraVarsReplace = {[argName]: node.arguments[i], ...extraVarsReplace}
+              }
+            }
             path.replaceWith(
-              template('GENERATED_FUNCTION_NAME(ARRAY, UPDATE_FUNCTION)')({
+              template(`GENERATED_FUNCTION_NAME(ARRAY, UPDATE_FUNCTION ${extraVarsCode})`)({
                 ARRAY: array,
                 UPDATE_FUNCTION: callback,
+                ...extraVarsReplace,
                 GENERATED_FUNCTION_NAME: t.identifier(state[name].name),
               })
             );
